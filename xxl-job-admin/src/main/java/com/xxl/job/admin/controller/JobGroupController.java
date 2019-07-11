@@ -1,5 +1,6 @@
 package com.xxl.job.admin.controller;
 
+import com.xxl.job.admin.controller.annotation.PermessionLimit;
 import com.xxl.job.admin.core.conf.XxlJobAdminConfig;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobRegistry;
@@ -8,9 +9,12 @@ import com.xxl.job.admin.dao.XxlJobGroupDao;
 import com.xxl.job.admin.dao.XxlJobInfoDao;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -26,6 +30,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/jobgroup")
 public class JobGroupController {
+
+	private static Logger logger = LoggerFactory.getLogger(JobGroupController.class);
 
 	@Resource
 	public XxlJobInfoDao xxlJobInfoDao;
@@ -154,6 +160,25 @@ public class JobGroupController {
 
 		int ret = xxlJobGroupDao.remove(id);
 		return (ret>0)?ReturnT.SUCCESS:ReturnT.FAIL;
+	}
+
+
+	/**
+	 * @param appName
+	 * @return
+	 */
+	@RequestMapping(value = "/findByAppName", method = RequestMethod.GET)
+	@ResponseBody
+	@PermessionLimit(limit = false)
+	public ReturnT<Integer> findByAppName(String appName) {
+		try {
+			XxlJobGroup xxlJobGroup = xxlJobGroupDao.findByAppName(appName);
+			return new ReturnT<>(xxlJobGroup.getId());
+		} catch (Exception e) {
+			logger.error("根据appName查找执行器信息异常", e);
+			return new ReturnT<>(ReturnT.FAIL_CODE, e.getMessage());
+		}
+
 	}
 
 }
