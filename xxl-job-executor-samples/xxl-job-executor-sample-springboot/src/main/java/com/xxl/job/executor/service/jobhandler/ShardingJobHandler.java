@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  *
  * @author xuxueli 2017-07-25 20:56:50
  */
-@JobHandler(value="shardingJobHandler")
+@JobHandler(value="loadData")
 @Service
 public class ShardingJobHandler extends IJobHandler {
 

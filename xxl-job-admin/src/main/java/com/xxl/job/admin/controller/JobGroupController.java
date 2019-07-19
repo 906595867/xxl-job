@@ -7,6 +7,7 @@ import com.xxl.job.admin.core.model.XxlJobRegistry;
 import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.dao.XxlJobGroupDao;
 import com.xxl.job.admin.dao.XxlJobInfoDao;
+import com.xxl.job.admin.dao.XxlJobRegistryDao;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
 import org.slf4j.Logger;
@@ -37,6 +38,9 @@ public class JobGroupController {
 	public XxlJobInfoDao xxlJobInfoDao;
 	@Resource
 	public XxlJobGroupDao xxlJobGroupDao;
+
+	@Resource
+	public XxlJobRegistryDao xxlJobRegistryDao;
 
 	@RequestMapping
 	public String index(Model model) {
@@ -180,5 +184,20 @@ public class JobGroupController {
 		}
 
 	}
+
+	@RequestMapping(value = "/findByRegistryKey", method = RequestMethod.GET)
+	@ResponseBody
+	@PermessionLimit(limit = false)
+	public ReturnT<List<XxlJobRegistry>> findByRegistryKey(String registryKey) {
+		try {
+			List<XxlJobRegistry> xxlJobRegistries = xxlJobRegistryDao.findByRegistryKey(registryKey);
+			return new ReturnT<List<XxlJobRegistry>>(xxlJobRegistries);
+		} catch (Exception e) {
+			logger.error("根据registryKey查找执行器信息异常", e);
+			return new ReturnT<>(ReturnT.FAIL_CODE, e.getMessage());
+		}
+
+	}
+
 
 }

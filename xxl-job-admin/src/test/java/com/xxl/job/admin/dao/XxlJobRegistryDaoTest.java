@@ -18,9 +18,9 @@ public class XxlJobRegistryDaoTest {
 
     @Test
     public void test(){
-        int ret = xxlJobRegistryDao.registryUpdate("g1", "k1", "v1");
+        int ret = xxlJobRegistryDao.registryUpdate("g1", "k1", "v1","tenaneid");
         if (ret < 1) {
-            ret = xxlJobRegistryDao.registrySave("g1", "k1", "v1");
+            ret = xxlJobRegistryDao.registrySave("g1", "k1", "v1","tenaneid");
         }
 
         List<XxlJobRegistry> list = xxlJobRegistryDao.findAll(1);

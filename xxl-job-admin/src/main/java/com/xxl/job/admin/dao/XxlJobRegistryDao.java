@@ -16,16 +16,28 @@ public interface XxlJobRegistryDao {
 
     public List<XxlJobRegistry> findAll(@Param("timeout") int timeout);
 
+    public List<XxlJobRegistry> findByRegistryKey(@Param("registryKey") String registryKey);
+
+    public List<XxlJobRegistry> findByAll(@Param("registryGroup") String registryGroup,
+                                                             @Param("registryKey") String registryKey,
+                                                             @Param("tenantId") String tenantId);
+
+//    public int registryUpdate(@Param("registryGroup") String registryGroup,
+//                              @Param("registryKey") String registryKey,
+//                              @Param("registryValue") String registryValue);
+
     public int registryUpdate(@Param("registryGroup") String registryGroup,
                               @Param("registryKey") String registryKey,
-                              @Param("registryValue") String registryValue);
+                              @Param("registryValue") String registryValue,
+                              @Param("tenantId") String tenantId);
 
     public int registrySave(@Param("registryGroup") String registryGroup,
                             @Param("registryKey") String registryKey,
-                            @Param("registryValue") String registryValue);
+                            @Param("registryValue") String registryValue,
+                            @Param("tenantId") String tenantId);
 
     public int registryDelete(@Param("registryGroup") String registGroup,
-                          @Param("registryKey") String registryKey,
-                          @Param("registryValue") String registryValue);
+                              @Param("registryKey") String registryKey,
+                              @Param("registryValue") String registryValue);
 
 }
